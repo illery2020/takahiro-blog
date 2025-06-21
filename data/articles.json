@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "title": "Next.js ブログへようこそ",
+    "slug": "welcome-to-nextjs-blog",
+    "date": "2025-06-20",
+    "excerpt": "このブログはNext.jsで構築されています！",
+    "content": "これは最初の記事です。Next.js のApp Routerやデータフェッチの学習に役立ちます。もっと長いコンテンツをここに書くことができます。"
+  },
+  {
+    "id": "2",
+    "title": "私の初めてのNext.jsアプリ",
+    "slug": "my-first-nextjs-app",
+    "date": "2025-06-21",
+    "excerpt": "Reactの知識を活かして、Next.jsでWebアプリを作成中。",
+    "content": "Next.jsを学び始めてから、初めて自分で作ったアプリについてご紹介します。小さな機能からコツコツと積み上げていくのが楽しいですね！"
+  }
+]
