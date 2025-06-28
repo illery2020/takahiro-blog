@@ -1,26 +1,101 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
+/* app/globals.css */
+
+/*
+  グローバルなCSS変数を定義することもできます。
+  これらは色やフォントサイズなどの共通値を一箇所で管理するのに便利です。
+*/
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --foreground-rgb: 0, 0, 0; /* 黒に近い色 */
+  --background-start-rgb: 240, 240, 240; /* 薄いグレーの背景開始色 */
+  --background-end-rgb: 255, 255, 255; /* 白い背景終了色 */
+  --text-color-light: #555; /* 薄いグレーのテキスト色 */
+  --link-color: #0070f3; /* 青いリンク色 */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* 基本的なHTML要素のリセットとフォント設定 */
+html,
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  /*
+    ヒント：フォントファミリーは、システムフォント（OSに元々入っているフォント）を優先することで、
+    高速な表示と、ユーザーにとって慣れ親しんだ見え方を提供できます。
+  */
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  line-height: 1.6; /* 行の高さを調整して読みやすくする */
+  color: rgb(var(--foreground-rgb)); /* 定義したCSS変数を使用 */
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb)); /* 背景にグラデーションをかける */
+}
+
+/* 全体のコンテナ（コンテンツの最大幅と中央寄せ） */
+.container {
+  max-width: 800px; /* コンテンツの最大幅を制限 */
+  margin: 0 auto; /* 中央寄せ */
+  padding: 20px; /* 余白 */
+}
+
+/* リンクセレクタ */
+a {
+  color: rgb(var(--link-color)); /* リンクの色 */
+  text-decoration: none; /* デフォルトの下線をなくす */
+}
+
+a:hover {
+  text-decoration: underline; /* ホバー時に下線を表示 */
+}
+
+/* 見出しの基本スタイル */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 1.5em; /* 上の要素との間隔 */
+  margin-bottom: 0.8em; /* 下の要素との間隔 */
+  line-height: 1.2; /* 見出しの行の高さ */
+  color: rgb(var(--foreground-rgb));
+}
+
+h1 {
+  font-size: 2.5em; /* 非常に大きなタイトル */
+  text-align: center; /* ページタイトルを中央寄せ */
+  margin-bottom: 1em;
+}
+
+h2 {
+  font-size: 2em;
+}
+
+h3 {
+  font-size: 1.5em;
+}
+
+/* リストのスタイル */
+ul {
+  list-style: none; /* リストの黒丸などをなくす */
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  margin-bottom: 15px;
+  border-bottom: 1px solid #eee; /* 各リストアイテムの下に区切り線 */
+  padding-bottom: 15px;
+}
+
+/* その他の基本的な要素 */
+p {
+  margin-bottom: 1em;
+  color: var(--text-color-light); /* 本文のテキスト色を少し薄くする */
 }
