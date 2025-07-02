@@ -3,8 +3,6 @@ import { Article } from "@/types/article";
 import Link from "next/link";
 import path from "path";
 
-const jsonDirectroy = path.join(process.cwd(), "data");
-
 async function getArticles(): Promise<Article[]> {
   const { data, error } = await supabase.from("articles").select("*");
   if (error) {
@@ -30,7 +28,7 @@ export default async function Home() {
                 {article.title}
               </h3>
             </Link>
-
+            <p className="text-sm text-blue-600 mb-2">{article.genre}</p>
             <p className="text-gray-600 mb-4">{article.excerpt}</p>
             <p className="text-sm text-gray-500">公開日:{article.date}</p>
             <Link

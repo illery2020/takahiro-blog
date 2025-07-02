@@ -48,6 +48,7 @@ export default async function ArticleDetailPage({
   return (
     <div>
       <h1 className="text-4xl font-bold mb-4 text-gray-900">{article.title}</h1>
+      <p className="text-sm text-blue-600 mb-2">{article.genre}</p>
       <p className="text-sm text-gray-500 mb-8">公開日:{article.date}</p>
       <p className="text-gray-600 mb-4">{article.excerpt}</p>
       <p className="text-lg leading-relaxed text-gray-700">{article.content}</p>
