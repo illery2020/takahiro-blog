@@ -1,16 +1,7 @@
-import { supabase } from "@/lib/supabse";
+import { getArticles, supabase } from "@/lib/supabse";
 import { Article } from "@/types/article";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-
-async function getArticles(): Promise<Article[]> {
-  const { data, error } = await supabase.from("articles").select("*");
-  if (error) {
-    console.error("Error fetcing articles:", error.message);
-    throw new Error("記事の取得に失敗しました");
-  }
-  return data as Article[];
-}
 
 export async function generateMetafata({
   params,

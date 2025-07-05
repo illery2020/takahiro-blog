@@ -1,13 +1,39 @@
+import { getArticles, getUniqueGenres } from "@/lib/supabse";
 import Link from "next/link";
-import { getArticles } from "@/lib/supabse";
+import { notFound } from "next/navigation";
 
-export default async function Home() {
+export async function generateStaticParams() {
+  const uniqueGenres = await getUniqueGenres();
+  const genreSlugs = uniqueGenres.map((genre) => ({
+    genreSlug: genre,
+  }));
+  return genreSlugs;
+}
+
+export default async function ArticleGenrePage({
+  params,
+}: {
+  params: Promise<{ genreSlug: string }>;
+}) {
+  const { genreSlug } = await params;
   const articles = await getArticles();
+  const articleFilterByGenre = articles.filter(
+    (art) => art.genre === genreSlug
+  );
+  if (articleFilterByGenre.length === 0) {
+    notFound();
+  }
+  const displayGenreName = genreSlug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
   return (
     <div>
-      <h1 className="text-4xl font-bold text-center my-8">ブログ記事一覧</h1>
+      <h1 className="text-4xl font-bold text-center my-8">
+        {displayGenreName}の記事一覧
+      </h1>
       <ul>
-        {articles.map((article) => (
+        {articleFilterByGenre.map((article) => (
           <li
             key={article.id}
             className="bg-white p-6 rounded-lg shadow-md mb-6 hover:shadow-lg transition-shadow"
