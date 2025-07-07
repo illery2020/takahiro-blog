@@ -14,21 +14,25 @@ export default async function Header() {
           My Blog
         </Link>
         <nav>
-          <Link
-            href="/"
-            className="text-text-secondary hover:text-blue-600 transition-colors mr-4"
-          >
-            Home
-          </Link>
           {genres.map((genre) => (
             <Link
               key={genre}
               href={`/genres/${genre}`}
               className="text-text-secondary hover:text-accent-blue transition-colors mr-4"
             >
-              {genre}
+              {genre
+                .replace(/-/g, " ")
+                .split(" ")
+                .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(" ")}
             </Link>
           ))}
+          <Link
+            href="/admin/new"
+            className="ml-6 bg-accent-blue text-white py-2 px-4 rounded-md text-sm font-semibold hover:bg-opacity-90 transition-colors"
+          >
+            記事を投稿
+          </Link>
         </nav>
       </div>
     </header>

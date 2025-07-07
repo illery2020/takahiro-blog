@@ -1,5 +1,9 @@
 "use client";
 
+import { createArticles } from "@/lib/supabse";
+import { Article } from "@/types/article";
+import { useRouter } from "next/navigation";
+import { Router } from "next/router";
 import { useState } from "react";
 
 export default function ArticleForm({ genres }: { genres: string[] }) {
@@ -10,11 +14,31 @@ export default function ArticleForm({ genres }: { genres: string[] }) {
   const [content, setContent] = useState("");
   const [date, setDate] = useState("");
   const [genre, setGenre] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // フォームのデフォルト送信を防ぐ
-    // ここに記事をSupabaseに送信するロジックを後で追加します
-    console.log({ title, slug, excerpt, content, date, genre });
+    const newArticleData: Omit<Article, "id"> = {
+      title: title,
+      slug: slug,
+      excerpt: excerpt,
+      content: content,
+      date: new Date(date).toISOString(),
+      genre: genre,
+    };
+    try {
+      const createdArticle = await createArticles(newArticleData);
+      if (createdArticle) {
+        console.log("記事が正常に作成されました", createdArticle);
+        alert("記事が正常に投稿されました");
+        router.push(`/articles/${createdArticle.slug}`);
+      } else {
+        alert("記事の投稿に失敗しました");
+      }
+    } catch (error) {
+      console.error("記事の投稿中にエラーが発生しました", error);
+      alert(`記事の投稿中にエラーが発生しました: ${(error as Error).message}`);
+    }
   };
 
   return (

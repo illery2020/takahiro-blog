@@ -33,3 +33,18 @@ export async function getUniqueGenres(): Promise<string[]> {
   const uniquewGenres = Array.from(new Set(genres));
   return uniquewGenres.filter(Boolean);
 }
+
+export async function createArticles(
+  articleData: Omit<Article, "id">
+): Promise<Article | null> {
+  const { data, error } = await supabase
+    .from("articles")
+    .insert(articleData)
+    .select()
+    .single();
+  if (error) {
+    console.error("Error creating article:", error.message);
+    throw new Error(`記事の作成に失敗しました: ${error.message}`);
+  }
+  return data as Article;
+}
