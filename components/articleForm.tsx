@@ -1,24 +1,32 @@
 "use client";
 
-import { createArticles } from "@/lib/supabse";
+import { createArticles, updateArticle } from "@/lib/supabase";
 import { Article } from "@/types/article";
 import { useRouter } from "next/navigation";
 import { Router } from "next/router";
 import { useState } from "react";
 
-export default function ArticleForm({ genres }: { genres: string[] }) {
+export default function ArticleForm({
+  genres,
+  article,
+}: {
+  genres: string[];
+  article?: Article;
+}) {
   // 各入力フィールドの状態を管理するための useState を定義
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
-  const [excerpt, setExcerpt] = useState("");
-  const [content, setContent] = useState("");
-  const [date, setDate] = useState("");
-  const [genre, setGenre] = useState("");
+  const [title, setTitle] = useState(article?.title || "");
+  const [slug, setSlug] = useState(article?.slug || "");
+  const [excerpt, setExcerpt] = useState(article?.excerpt || "");
+  const [content, setContent] = useState(article?.content || "");
+  const [date, setDate] = useState(
+    article?.title ? new Date(article.date).toISOString().slice(0, 16) : ""
+  );
+  const [genre, setGenre] = useState(article?.genre || "");
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); // フォームのデフォルト送信を防ぐ
-    const newArticleData: Omit<Article, "id"> = {
+    const submitArticleData: Omit<Article, "id"> = {
       title: title,
       slug: slug,
       excerpt: excerpt,
@@ -27,11 +35,20 @@ export default function ArticleForm({ genres }: { genres: string[] }) {
       genre: genre,
     };
     try {
-      const createdArticle = await createArticles(newArticleData);
-      if (createdArticle) {
-        console.log("記事が正常に作成されました", createdArticle);
+      let resultArticle: Article | null;
+      if (article) {
+        if (!article.id) {
+          throw new Error("編集対象の記事IDが見つかりません。");
+        }
+        resultArticle = await updateArticle(article.id, submitArticleData);
+        alert("記事が正常に更新されました！");
+      } else {
+        resultArticle = await createArticles(submitArticleData);
+        console.log("記事が正常に作成されました", resultArticle);
+      }
+      if (resultArticle) {
         alert("記事が正常に投稿されました");
-        router.push(`/articles/${createdArticle.slug}`);
+        router.push(`/articles/${resultArticle.slug}`);
       } else {
         alert("記事の投稿に失敗しました");
       }
@@ -44,7 +61,7 @@ export default function ArticleForm({ genres }: { genres: string[] }) {
   return (
     <div>
       <h1 className="text-4xl font-bold text-center my-8 text-text-primary">
-        新しい記事を投稿
+        {article ? "記事を編集" : "新しい記事を投稿"}
       </h1>
       <form
         onSubmit={handleSubmit}
@@ -183,7 +200,7 @@ export default function ArticleForm({ genres }: { genres: string[] }) {
           type="submit"
           className="w-full bg-accent-blue text-white py-3 px-6 rounded-md text-lg font-semibold hover:bg-opacity-90 transition duration-200 focus:outline-none focus:ring-2 focus:ring-accent-blue focus:ring-offset-2"
         >
-          記事を投稿
+          {article ? "記事を編集" : "記事を投稿"}
         </button>
       </form>
     </div>

@@ -48,3 +48,33 @@ export async function createArticles(
   }
   return data as Article;
 }
+
+export async function updateArticle(
+  id: string,
+  articleData: Omit<Article, "id">
+): Promise<Article | null> {
+  const { data, error } = await supabase
+    .from("articles")
+    .update(articleData)
+    .eq("id", id)
+    .select()
+    .single();
+
+  if (error) {
+    console.error("Error updating article:", error.message);
+    throw new Error(`記事の更新に失敗しました: ${error.message}`);
+  }
+
+  return data as Article;
+}
+
+export async function deleteArticle(id: string): Promise<boolean> {
+  const { data, error } = await supabase.from("articles").delete().eq("id", id);
+
+  if (error) {
+    console.error("Error updating article:", error.message);
+    throw new Error(`記事の削除に失敗しました: ${error.message}`);
+  }
+
+  return true;
+}

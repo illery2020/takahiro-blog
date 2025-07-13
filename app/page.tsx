@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getArticles } from "@/lib/supabse";
+import { getArticles } from "@/lib/supabase";
 
 export default async function Home() {
   const articles = await getArticles();

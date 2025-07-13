@@ -1,4 +1,4 @@
-import { getArticles, getUniqueGenres } from "@/lib/supabse";
+import { getArticles, getUniqueGenres } from "@/lib/supabase";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 

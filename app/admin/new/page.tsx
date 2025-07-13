@@ -1,5 +1,5 @@
 import ArticleForm from "@/components/articleForm";
-import { getUniqueGenres } from "@/lib/supabse";
+import { getUniqueGenres } from "@/lib/supabase";
 
 // サーバーコンポーネントとして定義
 export default async function New() {

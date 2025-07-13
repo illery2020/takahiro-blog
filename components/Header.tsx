@@ -1,4 +1,4 @@
-import { getUniqueGenres } from "@/lib/supabse";
+import { getUniqueGenres } from "@/lib/supabase";
 import { link } from "fs";
 import Link from "next/link";
 

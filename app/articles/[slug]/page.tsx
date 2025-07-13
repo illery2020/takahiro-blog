@@ -1,6 +1,8 @@
-import { getArticles, supabase } from "@/lib/supabse";
+import DeleteArticleButton from "@/components/DeleteArticleButton";
+import { getArticles, supabase } from "@/lib/supabase";
 import { Article } from "@/types/article";
 import { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
 export async function generateMetafata({
@@ -43,7 +45,19 @@ export default async function ArticleDetailPage({
       </h1>
       <p className="text-sm text-accent-blue mb-2">{article.genre}</p>
       <p className="text-sm text-text-secondary mb-8">公開日:{article.date}</p>
+
       <p className="text-text-secondary mb-4">{article.excerpt}</p>
+      <div className="mb-8 flex">
+        {" "}
+        {/* ボタンとコンテンツの間に少しスペース */}
+        <Link
+          href={`/admin/${article.slug}/edit`} // 編集ページへのパス
+          className="inline-block bg-accent-blue text-white py-2 px-4 rounded-md text-sm font-semibold hover:bg-opacity-90 transition-colors"
+        >
+          記事を編集
+        </Link>
+        <DeleteArticleButton articleId={article.id} />
+      </div>
       <p className="text-lg leading-relaxed text-text-primary">
         {article.content}
       </p>
