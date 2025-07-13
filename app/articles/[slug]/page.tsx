@@ -6,9 +6,9 @@ import { notFound } from "next/navigation";
 export async function generateMetafata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params;
   const articles = await getArticles();
   const article = articles.find((art) => art.slug === slug);
 
@@ -27,7 +27,7 @@ export async function generateMetafata({
 export default async function ArticleDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
   const { slug } = await params;
   const articles = await getArticles();
