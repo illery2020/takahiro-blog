@@ -3,7 +3,7 @@ import { getArticles } from "@/lib/supabase";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export async function generateMetafata({
+export async function generateMetadata({
   params,
 }: {
   params: { slug: string };
@@ -29,7 +29,7 @@ export default async function ArticleDetailPage({
 }: {
   params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params;
   const articles = await getArticles();
   const article = articles.find((art) => art.slug === slug);
 
