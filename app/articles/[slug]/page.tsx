@@ -3,33 +3,13 @@ import { getArticles } from "@/lib/supabase";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug: string };
-}) {
-  const { slug } = params;
-  const articles = await getArticles();
-  const article = articles.find((art) => art.slug === slug);
-
-  if (!article) {
-    return {
-      title: "記事が見つかりません",
-      description: "お探しの記事は存在しないか、削除された可能性があります。",
-    };
-  }
-  return {
-    title: article.title,
-    description: article.excerpt,
-  };
-}
-
 export default async function ArticleDetailPage({
   params,
 }: {
-  params: { slug: string };
+  // ★ ここを修正: params: { slug: string }; を Promise<{ slug: string }>; に戻す
+  params: Promise<{ slug: string }>;
 }) {
-  const { slug } = params;
+  const { slug } = await params; // ★ ここは await のままでOK
   const articles = await getArticles();
   const article = articles.find((art) => art.slug === slug);
 
@@ -46,10 +26,8 @@ export default async function ArticleDetailPage({
 
       <p className="text-text-secondary mb-4">{article.excerpt}</p>
       <div className="mb-8 flex">
-        {" "}
-        {/* ボタンとコンテンツの間に少しスペース */}
         <Link
-          href={`/admin/${article.slug}/edit`} // 編集ページへのパス
+          href={`/admin/${article.slug}/edit`}
           className="inline-block bg-accent-blue text-white py-2 px-4 rounded-md text-sm font-semibold hover:bg-opacity-90 transition-colors"
         >
           記事を編集
