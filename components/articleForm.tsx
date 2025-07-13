@@ -3,7 +3,6 @@
 import { createArticles, updateArticle } from "@/lib/supabase";
 import { Article } from "@/types/article";
 import { useRouter } from "next/navigation";
-import { Router } from "next/router";
 import { useState } from "react";
 
 export default function ArticleForm({

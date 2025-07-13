@@ -1,7 +1,5 @@
 import DeleteArticleButton from "@/components/DeleteArticleButton";
-import { getArticles, supabase } from "@/lib/supabase";
-import { Article } from "@/types/article";
-import { Metadata } from "next";
+import { getArticles } from "@/lib/supabase";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 

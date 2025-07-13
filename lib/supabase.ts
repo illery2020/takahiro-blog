@@ -69,7 +69,7 @@ export async function updateArticle(
 }
 
 export async function deleteArticle(id: string): Promise<boolean> {
-  const { data, error } = await supabase.from("articles").delete().eq("id", id);
+  const { error } = await supabase.from("articles").delete().eq("id", id);
 
   if (error) {
     console.error("Error updating article:", error.message);

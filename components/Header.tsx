@@ -1,5 +1,4 @@
 import { getUniqueGenres } from "@/lib/supabase";
-import { link } from "fs";
 import Link from "next/link";
 
 export default async function Header() {
